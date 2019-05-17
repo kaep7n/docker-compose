@@ -1,0 +1,13 @@
+version: "3.7"
+services:
+  mssql:
+    container_name: mssql-dev
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    volumes: 
+      - C:\dev\sql\data:/var/opt/mssql/data
+      - C:\dev\sql\backups:/var/backups
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=A123456!
+    ports:
+      - 1433:1433
