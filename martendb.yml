@@ -1,0 +1,30 @@
+name: marten-db
+services:
+  postgresql:
+    image: ${POSTGRES_IMAGE:-ionx/postgres-plv8:12.8}
+    container_name: postgresql
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: marten
+      NAMEDATALEN: 100
+    volumes:
+      - postgresql-data:/var/lib/postgresql/data
+
+  postgresql-admin:
+    image: dpage/pgadmin4
+    container_name: postgresql-admin
+    restart: always
+    ports:
+      - "8888:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: kaeptn@outlook.com
+      PGADMIN_DEFAULT_PASSWORD: postgres
+    volumes:
+      - postgresql-admin-data:/var/lib/pgadmin
+
+volumes:
+  postgresql-data:
+  postgresql-admin-data:
