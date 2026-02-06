@@ -1,0 +1,22 @@
+version: '3.7'
+services:
+    vault:
+      image: vault:latest
+      volumes:
+        - vault-data:/vault
+      ports:
+        - 8200:8200
+      environment:
+        - VAULT_ADDR=http://0.0.0.0:8200
+        - VAULT_API_ADDR=http://0.0.0.0:8200
+        - VAULT_ADDRESS=http://0.0.0.0:8200
+      cap_add:
+        - IPC_LOCK
+      command: vault server -config=/vault/config/vault.json
+volumes:
+  vault-data:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/dev/vault'

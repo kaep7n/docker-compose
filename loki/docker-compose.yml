@@ -1,0 +1,37 @@
+version: '3'
+services:
+  # Loki service
+  loki:
+    image: grafana/loki:latest
+    container_name: loki
+    ports:
+      - "3100:3100"
+    networks:
+      - logging
+
+  # Promtail (optional, to collect logs from local files)
+  promtail:
+    image: grafana/promtail:latest
+    container_name: promtail
+    volumes:
+      - /var/log:/var/log
+    command: -config.file=/etc/promtail/config.yml
+    networks:
+      - logging
+
+  # Grafana service
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin  # Set the admin password
+    ports:
+      - "3200:3000"  # Grafana dashboard accessible on port 3000
+    depends_on:
+      - loki  # Ensure Loki is up before Grafana
+    networks:
+      - logging
+
+networks:
+  logging:
+    driver: bridge

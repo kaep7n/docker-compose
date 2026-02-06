@@ -1,0 +1,22 @@
+version: "3.9"
+services:
+    minio:
+        image: minio/minio
+        volumes:
+          - min-io-storage:/data
+        ports:
+          - "10000:9000"
+        environment:
+          MINIO_ACCESS_KEY: minioaccount
+          MINIO_SECRET_KEY: A123456!
+          MINIO_ROOT_USER: minioaccount
+          MINIO_ROOT_PASSWORD: A123456!
+        command: server /data
+
+volumes:
+    min-io-storage:
+        driver: local
+        driver_opts:
+          type: 'none'
+          o: 'bind'
+          device: 'D:\dev\min-io\data'  
